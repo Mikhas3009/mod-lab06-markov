@@ -1,7 +1,8 @@
 // Copyright 2024 Mikhas3009
 #include "textgen.h"
 
-std::map<prefix, std::vector<std::string>> ReadFile(int NPREF, const std::string& path) {
+std::map<prefix, std::vector<std::string>> 
+ReadFile(int NPREF, const std::string& path) {
     prefix pref;
     std::map<prefix, std::vector<std::string>> statetab;
     std::string word;
@@ -24,7 +25,8 @@ std::map<prefix, std::vector<std::string>> ReadFile(int NPREF, const std::string
 }
 
 std::string GenWord(std::deque<std::string>& start,
-                    std::map<std::deque<std::string>, std::vector<std::string>>& statetab,
+                    std::map<std::deque<std::string>, 
+                    std::vector<std::string>>& statetab,
                     std::string& text) {
     std::vector<std::string> variable = statetab[start];
     int index = 0;
@@ -39,7 +41,8 @@ std::string GenWord(std::deque<std::string>& start,
 
 std::string GenerateText(int NPREF, int MAXGEN,
                          std::deque<std::string>& start,
-                         std::map<std::deque<std::string>, std::vector<std::string>>& statetab) {
+                         std::map<std::deque<std::string>, 
+                         std::vector<std::string>>& statetab) {
     std::string text;
     for (int i = 0; i < MAXGEN; i++) {
         GenWord(start, statetab, text);
