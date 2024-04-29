@@ -13,7 +13,6 @@ namespace markov {
             std::cerr << "Error: unable to open file " << filename << std::endl;
             return;
         }
-        
         Prefix pref;
         std::string word;
         while (file >> word) {
@@ -31,24 +30,19 @@ namespace markov {
     std::string MarkovChain::generate(int len, bool randfirst) {
         std::string result = "";
         initializeRandomGenerator();
-        
         auto it = table.begin();
         if (randfirst) {
             std::uniform_int_distribution<> udist(0, table.size()-1);
             std::advance(it, udist(mt));
         }
-        
         Prefix pref = it->first;
         for (const auto& word : pref) {
             result += word + " ";
         }
-        
         for (int i = 0; i < len - pref.size(); i++) {
             if (table[pref].empty()) break;
-            
             std::uniform_int_distribution<> udist(0, table[pref].size()-1);
             std::string next_word = table[pref][udist(mt)];
-            
             result += next_word + " ";
             pref.pop_front();
             pref.push_back(next_word);

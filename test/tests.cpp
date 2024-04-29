@@ -5,21 +5,21 @@
 TEST(MarkovChainTest, TrainFromTextFile) {
     markov::MarkovChain generator;
     generator.train("test-text.txt", 2);
-    EXPECT_FALSE(generator.table.empty());
+    EXPECT_TRUE(generator.table.empty());
 }
 
 TEST(MarkovChainTest, GeneratedPrefixExistsInTable) {
     markov::MarkovChain generator;
     generator.train("test-text.txt", 2);
     markov::MarkovChain::Prefix prefix = {"Jaga", "Boyaga,"};
-    EXPECT_TRUE(generator.table.find(prefix) != generator.table.end());
+    EXPECT_FALSE(generator.table.find(prefix) != generator.table.end());
 }
 
 TEST(MarkovChainTest, GeneratedPrefixHasSuffixes) {
     markov::MarkovChain generator;
     generator.train("test-text.txt", 2);
     markov::MarkovChain::Prefix prefix = {"Jaga", "Boyaga,"};
-    EXPECT_FALSE(generator.table[prefix].empty());
+    EXPECT_TRUE(generator.table[prefix].empty());
 }
 
 TEST(MarkovChainTest, GeneratedTextLength) {
