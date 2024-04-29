@@ -1,48 +1,59 @@
 // Copyright 2024 Mikhas3009
+
 #include "textgen.h"
 
-std::map<prefix, std::vector<std::string>>
-ReadFile(int NPREF, std::string path) {
-    prefix pref;
-    std::map<prefix, std::vector<std::string>> statetab; 
-    std::string word;
-    std::ifstream in(path);
-    if (in.is_open()) {
-        while (in >> word) {
-            if (pref.size() < NPREF) {
-                pref.push_back(word);
-            } else {
-                statetab[pref].push_back(word);
-                pref.push_back(word);
-                pref.pop_front();
-            }
+namespace markov {
+    void MarkovChain::initializeRandomGenerator() {
+        mt.seed(static_cast<unsigned int>(time(NULL)));
+    }
+
+    void MarkovChain::train(const std::string& filename, int npref) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Error: unable to open file " << filename << std::endl;
+            return;
         }
+        
+        Prefix pref;
+        std::string word;
+        while (file >> word) {
+            if (pref.size() < npref) {
+                pref.push_back(word);
+                continue;
+            }
+            table[pref].push_back(word);
+            pref.pop_front();
+            pref.push_back(word);
+        }
+        file.close();
     }
-    in.close();
-    return statetab;
-}
 
-std::string genWord(std::deque<std::string>(* start),
-std::map<std::deque<std::string>,
-std::vector<std::string>> statetab, std::string(* text)) {
-    std::vector<std::string> variable = statetab[*start];
-    int index = 0;
-    if (variable.size() > 0) {
-        index = std::rand() % variable.size();
-        *text = *text + variable[index] + " ";
-        (*start).pop_front();
-        (*start).push_back(variable[index]);
+    std::string MarkovChain::generate(int len, bool randfirst) {
+        std::string result = "";
+        initializeRandomGenerator();
+        
+        auto it = table.begin();
+        if (randfirst) {
+            std::uniform_int_distribution<> udist(0, table.size()-1);
+            std::advance(it, udist(mt));
+        }
+        
+        Prefix pref = it->first;
+        for (const auto& word : pref) {
+            result += word + " ";
+        }
+        
+        for (int i = 0; i < len - pref.size(); i++) {
+            if (table[pref].empty()) break;
+            
+            std::uniform_int_distribution<> udist(0, table[pref].size()-1);
+            std::string next_word = table[pref][udist(mt)];
+            
+            result += next_word + " ";
+            pref.pop_front();
+            pref.push_back(next_word);
+        }
+        
+        return result;
     }
-    return variable[index];
-}
-
-std::string generateText(int NPREF, int MAXGEN,
-    std::deque<std::string> start,
-    std::map<std::deque<std::string>,
-    std::vector<std::string>> statetab) {
-    std::string text;
-    for (int i = 0; i < MAXGEN; i++) {
-        genWord(&start, statetab, &text);
-    }
-    return text;
 }
