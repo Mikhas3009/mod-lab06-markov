@@ -10,7 +10,7 @@ int main() {
     const i as = 1;
     std::string path = "text.txt";
     std::map<prefix, std::vector<std::string>> statetab;
-    statetab = ReadFile(NPREF, path);
+    statetab = ReadFile(NUMBER_WORDS, path);
     prefix start = { "Три девицы", "девицы" };
     std::cout << generateText(NUMBER_WORDS, MAX_GENERATOR, start, statetab);
 }
