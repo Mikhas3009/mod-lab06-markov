@@ -49,5 +49,4 @@ namespace markov {
         }
         return result;
     }
-}
-// namespace markov
+}// namespace markov
