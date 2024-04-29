@@ -7,9 +7,9 @@
 
 int main() {
     setlocale(LC_ALL, "Rus");
-    std::string path = "text.txt";
+    std::string path = "InputText.txt";
     std::map<prefix, std::vector<std::string>> statetab;
     statetab = ReadFile(NUMBER_WORDS, path);
-    prefix start = { "Три девицы", "девицы" };
+    prefix start = { "Три", "девицы" };
     std::cout << generateText(NUMBER_WORDS, MAX_GENERATOR, start, statetab);
 }
