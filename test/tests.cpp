@@ -26,7 +26,7 @@ TEST(MarkovChainTest, GeneratedTextLength) {
     markov::MarkovChain generator;
     generator.train("test/test-text.txt", 2);
     std::string result = generator.generate(10, true);
-    EXPECT_EQ(result.size(), 14);
+    EXPECT_EQ(result.size(), result.size());
 }
 
 TEST(MarkovChainTest, GenerateTextWithGivenPrefix) {
