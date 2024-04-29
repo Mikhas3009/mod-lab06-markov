@@ -47,7 +47,7 @@ namespace markov {
             pref.pop_front();
             pref.push_back(next_word);
         }
-        
         return result;
     }
 }
+// namespace markov

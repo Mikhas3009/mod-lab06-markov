@@ -10,19 +10,18 @@
 #include <iostream>
 #include <random>
 
-namespace markov{
-    class MarkovChain {
-     public:
-        using Prefix = std::deque<std::string>;
-        using Suffixes = std::vector<std::string>;
-        std::map<Prefix, Suffixes> table;
-        void train(const std::string& filename, int npref);
-        std::string generate(int len, bool randfirst);
+namespace markov {
+class MarkovChain {
+ public:
+    using Prefix = std::deque<std::string>;
+    using Suffixes = std::vector<std::string>;
+    std::map<Prefix, Suffixes> table;
+    void train(const std::string& filename, int npref);
+    std::string generate(int len, bool randfirst);
 
-     private:
-        std::mt19937 mt;
-        void initializeRandomGenerator();
-    };
-}
-//namespace markov
+ private:
+    std::mt19937 mt;
+    void initializeRandomGenerator();
+};
+} //namespace markov
 #endif  // INCLUDE_TEXTGEN_H_
