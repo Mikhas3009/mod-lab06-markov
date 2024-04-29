@@ -7,7 +7,6 @@
 
 int main() {
     setlocale(LC_ALL, "Rus");
-    const i as = 1;
     std::string path = "text.txt";
     std::map<prefix, std::vector<std::string>> statetab;
     statetab = ReadFile(NUMBER_WORDS, path);
